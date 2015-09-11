@@ -1,1 +1,2 @@
-Application to join images
+Application to join images.
+

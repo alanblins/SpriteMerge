@@ -86,6 +86,7 @@ public class SpriteFolder {
 		//imageMagickExecution.execCmd(cmd);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void writeJson() {
 		JSONObject obj = new JSONObject();
 

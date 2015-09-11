@@ -1,0 +1,66 @@
+<project name="SpriteMerge">
+	
+    <property name="target.dir" location="build" />
+    <property name="target.report.dir" location="${target.dir}/report" />
+     
+	<path id="class.path">
+	  <fileset dir="libs/">
+	    <include name="*.jar" />
+	  </fileset>
+	</path>
+	
+	<path id="tests.classpath" path=".">
+		<fileset dir="libs/">
+			<include name="*.jar" />
+		</fileset>
+		<pathelement path="target/classes/" />
+	</path>
+	
+	<target name="compile">
+		<mkdir dir="test" />
+		<mkdir dir="target/classes/"/>
+		<mkdir dir="target/classes-test/"/>
+		<javac destdir="target/classes/" srcdir="src" debug="true" encoding="UTF-8" >
+			<classpath refid="class.path"/>
+		</javac>
+		<javac destdir="target/classes-test/" srcdir="test" classpathref="tests.classpath" debug="true" encoding="UTF-8">
+			<classpath refid="class.path" />
+		</javac>
+	</target>
+	
+	<target name="test" depends="compile">
+	    <mkdir dir="${target.report.dir}" />
+		<junit fork="true" forkmode="once"  printsummary="true" showoutput="true" failureproperty="failed-test" haltonfailure="true" >
+			<formatter type="plain" usefile="false" />
+            <formatter type="xml" />
+			<classpath location="target/classes-test/" />
+			<classpath refid="tests.classpath" />
+			<batchtest fork="true" todir="${target.report.dir}">
+				<fileset dir="target/classes-test" >
+					<include name="**/*Test.class" />
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
+	
+	 <target name="report" depends="test">
+        <mkdir dir="${target.report.dir}/html" />
+        <junitreport todir="${target.report.dir}">
+            <fileset dir="${target.report.dir}">
+                <include name="TEST-*.xml" />
+            </fileset>
+            <report todir="${target.report.dir}/html" />
+        </junitreport>
+    </target>
+	
+	<target name="jar" depends="compile">
+		<mkdir dir="target/classes/"/>
+		<jar destfile="target/SpriteMerge.jar" basedir="target/classes/" filesetmanifest="skip">
+			
+			<zipgroupfileset dir="libs/" includes="*.jar"/>
+		     <manifest>
+                <attribute name="Main-Class" value="Main"/>
+            </manifest>
+		</jar>
+	</target>
+</project>
