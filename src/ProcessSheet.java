@@ -19,6 +19,7 @@ public class ProcessSheet {
 		}
 	}
 	
+	
 	public void process() throws IOException, InterruptedException, IM4JavaException{
 		for(SpriteFolder spriteFolder : listSpriteFolders){
 			for(Sprite sprite : spriteFolder.getSprites()){
@@ -31,6 +32,8 @@ public class ProcessSheet {
 				sprite.compositeBackgroud(backgroundFile);
 				sprite.makeTransparent();
 			}
+			spriteFolder.createDestinationFolder();
+			spriteFolder.createDataJsonFolder();
 			spriteFolder.montageSpriteSheet();
 			spriteFolder.makeTransparent();
 			spriteFolder.writeJson();

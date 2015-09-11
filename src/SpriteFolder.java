@@ -18,6 +18,9 @@ public class SpriteFolder {
 	private ConvertCmd convertCmd;
 	private MontageCmd montageCmd;
 	
+	private String destinationFolder = "images";
+	private String dataJsonFolder = "data";
+	
 	private List<Sprite> sprites = new ArrayList<Sprite>();
 
 	public List<Sprite> getSprites(){
@@ -42,9 +45,25 @@ public class SpriteFolder {
 		}
 	}
 
+	public void createDestinationFolder(){
+		File folder = new File(destinationFolder);
+		if(!folder.exists()){
+			folder.mkdir();
+		}
+		
+	}
+	
+	public void createDataJsonFolder(){
+		File folder = new File(dataJsonFolder);
+		if(!folder.exists()){
+			folder.mkdir();
+		}
+	}
+	
+	
 	public void montageSpriteSheet() throws IOException, InterruptedException, IM4JavaException {
 		String inputImage = fileFolder.getAbsoluteFile()+File.separator+"*.png";
-		String destinationImage = "images"+File.separator+fileFolder.getName()+".png";
+		String destinationImage = destinationFolder+File.separator+fileFolder.getName()+".png";
 		
 		IMOperation op = new IMOperation();
 		op.geometry(maxWidth, maxHeight, 3, 3);
@@ -57,7 +76,7 @@ public class SpriteFolder {
 
 	public void makeTransparent() throws IOException, InterruptedException, IM4JavaException {
 		IMOperation op = new IMOperation();
-		String imageFinal = "images"+File.separator+fileFolder.getName()+".png"; 
+		String imageFinal = destinationFolder+File.separator+fileFolder.getName()+".png"; 
 		op.addImage(imageFinal);
 		op.transparent("white");
 		op.addImage(imageFinal);
@@ -83,7 +102,7 @@ public class SpriteFolder {
 
 		try {
 
-			FileWriter file = new FileWriter("data" + File.separator
+			FileWriter file = new FileWriter(dataJsonFolder + File.separator
 					+ fileFolder.getName() + ".json");
 			file.write(obj.toJSONString());
 			file.flush();
