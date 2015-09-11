@@ -1,4 +1,4 @@
-Application to join images.
+Application to join images and generete json file for Quintus Engine.
 
 Type your ImageMagick path in app.config file
 
